@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "types.h"
+#include "geometry.h"
 
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) { }
 
@@ -43,4 +43,21 @@ Vec3 operator-(Vec3 v1, Vec3 v2) {
 
 bool operator==(Vec3 v1, Vec3 v2) {
     return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+}
+
+Rotation::Rotation(float roll, float pitch, float yaw) : roll(roll), pitch(pitch), yaw(yaw) { }
+
+Vec3 operator*(Rotation r, Vec3 v) {
+
+    float y1 = (v.y * cosf(r.roll)) - (v.z * sinf(r.roll));
+    float z1 = (v.y * sinf(r.roll)) + (v.z * cosf(r.roll));
+    
+    float x2 = (v.x * cosf(r.pitch)) + (z1 * sinf(r.pitch));
+    float z2 = -(v.x * cosf(r.pitch)) + (y1 * sinf(r.pitch));
+
+    float x3 = (x2 * cosf(r.yaw)) - (y1 * sinf(r.yaw));
+    float y3 = (x2 * sinf(r.yaw)) - (y1 * cosf(r.yaw));
+
+    return Vec3(x3, y3, z2);
+
 }
