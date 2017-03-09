@@ -17,7 +17,7 @@ public:
     Boid(): pos(Vec3()), velocity(Vec3()), forward(Vec3(0.0, 0.0, 1.0)), up(Vec3(0.0, 1.0, 0.0)),
         side(Vec3(1.0, 0.0, 0.0)), max_speed(100.0), max_accel(0.25) { }
 
-    void fly(Vec3);
+    Boid fly(Vec3);
     Vec3 behave();
     Boid update();
 };

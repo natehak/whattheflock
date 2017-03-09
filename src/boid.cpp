@@ -1,15 +1,24 @@
+#include <tuple>
+
 #include "boid.h"
 
-void Boid::fly(Vec3 acceleration) {
+Boid Boid::fly(Vec3 acceleration) {
+    Boid b;
     Vec3 acc = acceleration.truncate(max_accel * max_speed);
-    velocity = (velocity + acc).truncate(max_speed);
-    pos = pos + velocity;
+    b.velocity = (velocity + acc).truncate(max_speed);
+    b.pos = pos + b.velocity;
 
     // Reorient
-    forward = velocity.normalized();
+    b.forward = b.velocity.normalized();
     Vec3 aprx_up = up; // Should be a weighted sum of acc, acc due to gravity, and the old up
-    side = forward.cross(aprx_up);
-    up = forward.cross(side);
+    b.side = b.forward.cross(aprx_up);
+    b.up = b.forward.cross(b.side);
+
+    // Copy
+    b.max_speed = max_speed;
+    b.max_accel = max_accel;
+
+    return b;
 }
 
 Vec3 Boid::behave() {
@@ -19,5 +28,5 @@ Vec3 Boid::behave() {
 
 Boid Boid::update() {
     Vec3 acc = behave();
-    fly(acc);
+    return fly(acc);
 }
