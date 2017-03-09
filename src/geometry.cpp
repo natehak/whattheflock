@@ -7,6 +7,13 @@ Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) { }
 Vec3 Vec3::cross(Vec3 vec) {
     return Vec3(((y * vec.z) - (z * vec.y)), ((z * vec.x) - (x * vec.z)), ((x * vec.y) - (y * vec.x)));
 }
+Vec3 Vec3::truncate(float s) {
+    if (length() > s) {
+        Vec3 toReturn = normalized();
+        return s * toReturn;
+    }
+    return Vec3(x, y, z);
+}
 
 Vec3 Vec3::operator-() {
     return Vec3(-x, -y, -z);
