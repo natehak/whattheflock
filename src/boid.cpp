@@ -17,13 +17,20 @@ Boid Boid::fly(Vec3 acceleration) {
     // Copy
     b.max_speed = max_speed;
     b.max_accel = max_accel;
+    b.behaviors = behaviors;
 
     return b;
 }
 
 Vec3 Boid::behave() {
-    // TODO: Implement steering accumulator
-    return Vec3(0.0, 0.0, 0.0);
+
+    Vec3 accel = Vec3(0.0, 0.0, 0.0);
+
+    for (Vec3 (*behavior)(Boid *) : behaviors) {
+        accel = accel + behavior(this);
+    }
+
+    return accel;
 }
 
 Boid Boid::update() {

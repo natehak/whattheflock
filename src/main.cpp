@@ -13,6 +13,23 @@ float zoom = 0.5f;
 
 long t = 0;
 
+Vec3 circle(Boid *b) {
+    if (t < 50)
+        return Vec3(0.05, 0.0, 0.0);
+    else if (50 <= t && t < 100)
+        return Vec3(0.0, 0.0, -0.05);
+    else if (100 <= t && t < 150)
+        return Vec3(-0.05, 0.0, 0.0);
+    else if (150 <= t && t < 200)
+        return Vec3(0.0, 0.0, 0.05);
+    else {
+        t = 0;
+        return Vec3();
+    }
+}
+
+Boid b;
+
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     switch (key) {
             
@@ -60,6 +77,45 @@ void display(GLFWwindow* window) {
     glRotatef(rotation[0], 1.0f, 0.0f, 0.0f);
     glRotatef(rotation[1], 0.0f, 1.0f, 0.0f);
 
+    b = b.update();
+    std::cout << b.pos.x << ", " << b.pos.y << ", " << b.pos.z << std::endl;
+
+    // Draw boid
+    glPushMatrix();
+    glColor3f(1.0f, 0.0f, 0.0f);
+    float tf[] = {b.forward.x, b.forward.y, b.forward.z, 0,
+                  b.up.x, b.up.y, b.up.z, 0,
+                  b.side.x, b.side.y, b.side.z, 0,
+                  b.pos.x, b.pos.y, b.pos.z, 1};
+    glMultMatrixf(tf);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBegin(GL_TRIANGLES);
+        glVertex3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, 0.5f, 0.5f);
+        glVertex3f(0.0f, 0.5f, -0.5f);
+
+        glVertex3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, -0.5f, 0.5f);
+        glVertex3f(0.0f, 0.5f, 0.5f);
+
+        glVertex3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, -0.5f, 0.5f);
+        glVertex3f(0.0f, -0.5f, -0.5f);
+
+        glVertex3f(1.0f, 0.0f, 0.0f);
+        glVertex3f(0.0f, -0.5f, -0.5f);
+        glVertex3f(0.0f, 0.5f, -0.5f);
+
+        glVertex3f(0.0f, 0.5f, -0.5f);
+        glVertex3f(0.0f, 0.5f, 0.5f);
+        glVertex3f(0.0f, -0.5f, 0.5f);
+
+        glVertex3f(0.0f, 0.5f, -0.5f);
+        glVertex3f(0.0f, -0.5f, 0.5f);
+        glVertex3f(0.0f, -0.5f, -0.5f);
+
+    glEnd();
+    glPopMatrix();
 
     glPopMatrix();
     
@@ -84,6 +140,7 @@ void size_callback(GLFWwindow* window, int width, int height)
 }
 
 int main(int argc, char *argv[]) {
+    b.behaviors.push_back(&circle);
     if (!glfwInit()) {
         std::cout << "GLFW could not be initialied." << std::endl;
         return 1;
