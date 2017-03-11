@@ -16,6 +16,7 @@ public:
     Vec3 normalized();
     Vec3 cross(Vec3 vec);
     Vec3 truncate(float s);
+    float dist(Vec3);
 
     Vec3 operator-();
 };

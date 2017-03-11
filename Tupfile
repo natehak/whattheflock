@@ -1,2 +1,2 @@
-: foreach src/*.cpp |> clang++ -g -c %f -o %o |> obj/%B.o
+: foreach src/*.cpp |> clang++ -std=c++1y -g -c %f -o %o |> obj/%B.o
 : obj/*.o |> clang++ -g %f -framework OpenGL -framework Cocoa -o %o -lglfw |> flock

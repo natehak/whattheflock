@@ -25,4 +25,15 @@ public:
     Boid fly(Vec3);
     Vec3 behave();
     Boid update();
+    void draw();
+};
+
+class Flock {
+public:
+    std::vector<Boid> get_neighbors(Vec3, float);
+    Flock update();
+    void draw();
+    std::vector<Boid> boids;
+
+    Flock() : boids(std::vector<Boid>()) { }
 };

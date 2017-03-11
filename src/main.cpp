@@ -78,45 +78,8 @@ void display(GLFWwindow* window) {
     glRotatef(rotation[1], 0.0f, 1.0f, 0.0f);
 
     b = b.update();
-    std::cout << b.pos.x << ", " << b.pos.y << ", " << b.pos.z << std::endl;
-
-    // Draw boid
-    glPushMatrix();
-    glColor3f(1.0f, 0.0f, 0.0f);
-    float tf[] = {b.forward.x, b.forward.y, b.forward.z, 0,
-                  b.up.x, b.up.y, b.up.z, 0,
-                  b.side.x, b.side.y, b.side.z, 0,
-                  b.pos.x, b.pos.y, b.pos.z, 1};
-    glMultMatrixf(tf);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glBegin(GL_TRIANGLES);
-        glVertex3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, 0.5f, 0.5f);
-        glVertex3f(0.0f, 0.5f, -0.5f);
-
-        glVertex3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, -0.5f, 0.5f);
-        glVertex3f(0.0f, 0.5f, 0.5f);
-
-        glVertex3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, -0.5f, 0.5f);
-        glVertex3f(0.0f, -0.5f, -0.5f);
-
-        glVertex3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(0.0f, -0.5f, -0.5f);
-        glVertex3f(0.0f, 0.5f, -0.5f);
-
-        glVertex3f(0.0f, 0.5f, -0.5f);
-        glVertex3f(0.0f, 0.5f, 0.5f);
-        glVertex3f(0.0f, -0.5f, 0.5f);
-
-        glVertex3f(0.0f, 0.5f, -0.5f);
-        glVertex3f(0.0f, -0.5f, 0.5f);
-        glVertex3f(0.0f, -0.5f, -0.5f);
-
-    glEnd();
-    glPopMatrix();
-
+    b.draw(); // Draw boid
+   
     glPopMatrix();
     
     glfwSwapBuffers(window);

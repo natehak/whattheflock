@@ -2,6 +2,8 @@
 
 #include "geometry.h"
 
+inline float sqr(float x) { return x*x; }
+
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) { }
 
 Vec3 Vec3::cross(Vec3 vec) {
@@ -20,7 +22,7 @@ Vec3 Vec3::operator-() {
 }
 
 float Vec3::length() {
-    return sqrt((x * x) + (y * y) + (z * z));
+    return sqrtf((x * x) + (y * y) + (z * z));
 }
 
 Vec3 Vec3::normalized() {
@@ -30,6 +32,10 @@ Vec3 Vec3::normalized() {
 
 Vec3 Vec3::squared() {
     return Vec3(x * x, y * y, z * z);
+}
+
+float Vec3::dist(Vec3 b) {
+    return sqrtf(sqr(x - b.x) + sqr(y - b.y) + sqr(z - b.z));
 }
 
 float operator*(Vec3 v1, Vec3 v2) {
